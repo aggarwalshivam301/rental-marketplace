@@ -1,0 +1,20 @@
+const express = require('express');
+const router = express.Router();
+const { protect } = require('../middleware/auth');
+const {
+  getAllItems,
+  getItem,
+  createItem,
+  updateItem,
+  deleteItem,
+  getMyItems
+} = require('../controllers/itemController');
+
+router.get('/', getAllItems);
+router.get('/my-items', protect, getMyItems);
+router.get('/:id', getItem);
+router.post('/', protect, createItem);
+router.put('/:id', protect, updateItem);
+router.delete('/:id', protect, deleteItem);
+
+module.exports = router;

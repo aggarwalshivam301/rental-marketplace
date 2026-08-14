@@ -2,7 +2,12 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 
 const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET || 'secret-key', { expiresIn: '30d' });
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    throw new Error('JWT_SECRET is not configured');
+  }
+
+  return jwt.sign({ id }, secret, { expiresIn: '30d' });
 };
 
 exports.register = async (req, res) => {
